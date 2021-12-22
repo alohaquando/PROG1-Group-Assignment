@@ -19,12 +19,13 @@ public class Input {
         LocalDate[] pair = inputDate(dateType);
         input[2] = pair;
 
-        input[3] = dateBetween(pair);
+        int days = dateBetween(pair);
+        input[3] = days;
 
         String groupType = inputGroupType();
         input[4] = groupType;
 
-        input[5] = inputGroup(groupType);
+        input[5] = inputGroup(groupType, days);
         input[6] = inputMetricType();
         input[7] = inputValueType();
         input[8] = inputTableType();
@@ -155,18 +156,18 @@ public class Input {
     // Get grouping type
     static String inputGroupType() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("\nPick a grouping type. Write 'none', 'by group', or 'by date': ");
+        System.out.print("\nPick a grouping type. Write 'none', 'by group', or 'by days': ");
         String inputGroupType = scanner.nextLine();
 
         // Validate input
         while (true) {
             switch (inputGroupType) {
-                case "none", "by group", "by date" -> {
+                case "none", "by group", "by days" -> {
                     return inputGroupType;
                 }
                 default -> {
                     System.out.println("Invalid input. Please try again.");
-                    System.out.print("\nPick a grouping type. Write 'none', 'by group', or 'by date': ");
+                    System.out.print("\nPick a grouping type. Write 'none', 'by group', or 'by days': ");
                     inputGroupType = scanner.nextLine();
                 }
             }
@@ -174,7 +175,7 @@ public class Input {
     }
 
     // Get grouping value
-    static int inputGroup(String type) {
+    static int inputGroup(String type, int days) {
         Scanner scanner = new Scanner(System.in);
         // Validate input
         switch (type) {
@@ -187,14 +188,21 @@ public class Input {
                 }
                 return scanner.nextInt();
             }
-            case "by date" -> {
+            case "by days" -> {
                 System.out.print("\nNumber of days: ");
                 while (!scanner.hasNextInt()) {
                     System.out.println("Invalid input. Try again.");
-                    System.out.print("\nNumber of groups: ");
+                    System.out.print("\nNumber of days: ");
                     scanner.nextLine();
                 }
-                return scanner.nextInt();
+                int daysGroup = scanner.nextInt();
+                while (days % daysGroup != 0) {
+                    System.out.println("Invalid input. Try again.");
+                    System.out.print("\nNumber of days: ");
+                    scanner.nextLine();
+                    daysGroup = scanner.nextInt();
+                }
+                return daysGroup;
             }
         }
         return 0;
