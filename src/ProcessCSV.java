@@ -58,17 +58,16 @@ public class ProcessCSV {
         }
 
         // Print out formatted content of 2D list
-        // UNCOMMENT THIS PART IF YOU WANT TO SEE THE PROCESSED CSV LIST
-//        int lineNo = 1;
-//        for (List<Object> line : data) {
-//            System.out.println("\nLine " + lineNo);
-//            int columnNo = 0;
-//            for (Object value : line) {
-//                System.out.println(data.get(0).get(columnNo) + ": " + value);
-//                columnNo++;
-//            }
-//            lineNo++;
-//        }
+        int lineNo = 1;
+        for (List<Object> line : data) {
+            System.out.println("\nLine " + lineNo);
+            int columnNo = 0;
+            for (Object value : line) {
+                System.out.println(data.get(0).get(columnNo) + ": " + value);
+                columnNo++;
+            }
+            lineNo++;
+        }
         System.out.println("\nCSV file processed successfully");
 
 
