@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,9 +26,7 @@ public class ProcessCSV {
 
                 // Copy values from String array to Object array to store more type of value
                 Object[] values = new Object[8];
-                for (int i = 0; i < preValues.length; i++) {
-                    values[i] = preValues[i];
-                }
+                System.arraycopy(preValues, 0, values, 0, preValues.length);
 
                 // Fill in 0 for empty values
                 for (int i = 0; i < 8; i++) {
@@ -61,6 +58,7 @@ public class ProcessCSV {
         }
 
         // Print out formatted content of 2D list
+        // UNCOMMENT THIS PART IF YOU WANT TO SEE THE PROCESSED CSV LIST
 //        int lineNo = 1;
 //        for (List<Object> line : data) {
 //            System.out.println("\nLine " + lineNo);
@@ -85,10 +83,6 @@ public class ProcessCSV {
             }
         }
         return false;
-    }
-
-    public static int calculate(List data, Timestamp from, Timestamp to) {
-        return 0;
     }
 
 

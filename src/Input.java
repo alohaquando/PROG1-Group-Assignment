@@ -51,7 +51,7 @@ public class Input {
         String input = scanner.nextLine();
 
         // Call method to find if country or continent exist in the data
-
+        // Loop until country is found
         while (!ProcessCSV.validate(data, input, 2)) {
             System.out.println("Country or continent not found. Try again.");
             System.out.print("\nPick country or continent. Write and capitalize first letter (ex: 'Vietnam' or 'Asia'): ");
@@ -68,6 +68,7 @@ public class Input {
         System.out.print("\nPick how to input date range. Write 'pair', 'days before', or 'days after': ");
         String inputDateType = scanner.nextLine();
 
+        // Validate date type
         while (true) {
             switch (inputDateType) {
                 case "pair", "days before", "days after" -> {
@@ -85,9 +86,13 @@ public class Input {
     // Get date
     static LocalDate[] inputDate(String type) {
         Scanner scanner = new Scanner(System.in);
+        // Initialize new LocalDate array
         LocalDate[] result = new LocalDate[2];
+
+        // Formatter to format input into LocalDate
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
+        // Try to format input and ask for input again if invalid
         while (true) {
             System.out.print("Write 1st date as MM/DD/YYYY (ex: 05/20/2021): ");
             try {
@@ -99,6 +104,7 @@ public class Input {
             }
         }
 
+        // Cases for each date type
         switch (type) {
             case "pair" -> {
                 while (true) {
@@ -138,9 +144,10 @@ public class Input {
         return result;
     }
 
-    // Get date amount between
+    // Get days between dates
     static int dateBetween(LocalDate[] pair) {
         int dateBetween = (int) ChronoUnit.DAYS.between(pair[0], pair[1]);
+        // Make sure the number is positive
         dateBetween = Math.abs(dateBetween);
         return dateBetween;
     }
