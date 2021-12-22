@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -38,10 +39,17 @@ public class ProcessCSV {
                 }
 
                 // Convert date into LocalDate format to make easier to calculate and use later
-                if (!values[3].toString().equals("date")) {
+                // Cast numbers into integers
+                // Skip the first line
+                if (!values[0].toString().equals("iso_code")) {
                     LocalDate formattedDate = LocalDate.parse(values[3].toString(), dateFormatter);
                     values[3] = formattedDate;
+                    values[4] = Integer.parseInt(values[4].toString());
+                    values[5] = Integer.parseInt(values[5].toString());
+                    values[6] = Integer.parseInt(values[6].toString());
+                    values[7] = new BigInteger(values[7].toString());
                 }
+
 
                 // Add this array into the List
                 data.add(Arrays.asList(values));
@@ -53,16 +61,16 @@ public class ProcessCSV {
         }
 
         // Print out formatted content of 2D list
-//        int lineNo = 1;
-//        for (List<Object> line : data) {
-//            System.out.println("\nLine " + lineNo);
-//            int columnNo = 0;
-//            for (Object value : line) {
-//                System.out.println(data.get(0).get(columnNo) + ": " + value);
-//                columnNo++;
-//            }
-//            lineNo++;
-//        }
+        int lineNo = 1;
+        for (List<Object> line : data) {
+            System.out.println("\nLine " + lineNo);
+            int columnNo = 0;
+            for (Object value : line) {
+                System.out.println(data.get(0).get(columnNo) + ": " + value);
+                columnNo++;
+            }
+            lineNo++;
+        }
         System.out.println("\nCSV file processed successfully");
 
 
