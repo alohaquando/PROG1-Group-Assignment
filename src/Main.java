@@ -2,7 +2,13 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List data = ProcessCSV.process();
-        System.out.println(data);
+        // Process the CSV file to use throughout the function
+        List<List<Object>> data = ProcessCSV.process();
+
+//        Input.inputCountry(data);
+//        Input.inputTableType();
+//        Input.inputValueType();
+//        Input.inputMetricType();
+        Input.inputGroup();
     }
 }
