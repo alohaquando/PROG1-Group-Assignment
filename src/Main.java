@@ -8,5 +8,9 @@ public class Main {
         // Get all needed input
         Input.getAllInput(data);
 
+        //Display the results
+        DataDisplay.tabularDisplay(Input.getAllInput(data));
+        DataDisplay.chartDisplay(Input.getAllInput(data));
+
     }
 }
