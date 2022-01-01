@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 public class Input {
 
+    static int days_between;
+    static int group_value;
+    public static LocalDate[] pair;
     // Get all Input
     static Object[] getAllInput(List<List<Object>> data) {
         Object[] input = new Object[9];
@@ -21,11 +24,14 @@ public class Input {
 
         int days = dateBetween(pair);
         input[3] = days;
+        days_between = days;
 
         String groupType = inputGroupType();
         input[4] = groupType;
 
         input[5] = inputGroup(groupType, days);
+        group_value = inputGroup(groupType,days);
+        
         input[6] = inputMetricType();
         input[7] = inputValueType();
         input[8] = inputTableType();
