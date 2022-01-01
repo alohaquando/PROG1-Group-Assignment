@@ -22,7 +22,7 @@ public class Display {
             LocalDate[] date_pair = pair;
             LocalDate tempDate = date_pair[0]; //initial value for temp_date is the start date to be use later on
 
-            if (date_pair[0] == date_pair[1]) { //user input 1 date
+            if (date_pair[0].isEqual(date_pair[1])) { //user input 1 date
                 date_pair_each_row.add(date_pair[0]);
                 //range_input_list.add(date_pair[0]);
             }
