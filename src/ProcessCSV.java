@@ -83,6 +83,28 @@ public class ProcessCSV {
         }
         return false;
     }
+    
+    public List<List<Object>> find_data(List<List<Object>> data, String find_location, LocalDate find_date, int location_column, int date_column) {
+        List<List<Object>> data_for_calculation = new ArrayList<>();//put data needed in here and return it to use
+
+        for (List<Object> line : data) {
+            if (find_location.equals(line.get(location_column))) {
+                if(find_date.equals(line.get(date_column))){
+                    if (inputMetricType().equals("positive")){
+                        data_for_calculation.add((List<Object>) line.get(5));
+                    }
+                    else if ((inputMetricType().equals("death"))){
+                        data_for_calculation.add((List<Object>) line.get(6));
+
+                    }
+                    else {
+                        data_for_calculation.add((List<Object>) line.get(7));
+                    }
+                }
+            }
+        }
+        return data_for_calculation;
+    }
 
 
 }
