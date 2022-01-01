@@ -34,7 +34,7 @@ public class Display {
                     date_pair[1] = temp_date_swap;
                 }
                 if (inputGroupType().equals("none")) { //loop and add until date reach end date
-                    while (tempDate != date_pair[1]){
+                    while (!tempDate.isAfter(date_pair[1])){
                         date_pair_each_row.add(tempDate);
                         tempDate = tempDate.plusDays(1);
                     }
