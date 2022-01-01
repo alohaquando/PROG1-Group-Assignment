@@ -24,6 +24,7 @@ public class Display {
 
             if (date_pair[0].isEqual(date_pair[1])) { //user input 1 date
                 date_pair_each_row.add(date_pair[0]);
+                System.out.println("Correct");
                 //range_input_list.add(date_pair[0]);
             }
             else { //user input 2 different dates
@@ -55,7 +56,6 @@ public class Display {
                         date_pair_each_row.add(tempDate.plusDays(1));
                     }
                     date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
-
                 }
                 else { //if this doesnt work, change it into else if "by days". This is done
                     //have exactly as many row as selected_group_value
@@ -66,7 +66,6 @@ public class Display {
                         date_pair_each_row.add(tempDate.plusDays(1)); //add the start date of the next group
                     }
                     date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
-
                 }
             }
             String temp_date_string_output = null;
@@ -118,12 +117,6 @@ public class Display {
                         date_pair_index = date_pair_index + 2;
                     }
                 }
-                /*
-                while (!start_date_of_row.isAfter(end_date_of_row)) { // while start date of every row is not after end date of every row
-                    every_date_each_row.add(start_date_of_row);
-                    start_date_of_row = start_date_of_row.plusDays(1);
-                } */
-
                 //2 way of calculating results
                 if (inputValueType().equals("new total")) {
                     //Choose between three metric
@@ -195,7 +188,6 @@ public class Display {
                             sum += i;
                         }
                     }
-
                 }
                 else { //if it is up to
                     start_date_of_row = date_pair[0];
@@ -231,4 +223,3 @@ public class Display {
         }
     }
 }
-
