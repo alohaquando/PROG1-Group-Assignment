@@ -69,19 +69,20 @@ public class Display {
 
                 }
             }
-            //String temp_date_string_output;
             String temp_date_string_output = null;
-            if (inputGroupType().equals("by group") || inputGroupType().equals("by days")) { //replace with equals if needed
-                for (int i = 0; i < date_pair_each_row.size(); i ++)
-                    //Since if sorted by group or by days, it will always in pair. This for loop format localdate into string.
-                    temp_date_string_output = date_pair_each_row.get(i).toString() + " - " + date_pair_each_row.get(i+1).toString();
-                    range_input_list.add(temp_date_string_output);
-            }
-            else { //else if its only 1 date or select inputGroupType() = none
+            if (date_pair[0].isEqual(date_pair[1]) || inputGroupType().equals("none")) { //If only input 1 date or input GroupType = none
                 for (LocalDate localDate : date_pair_each_row) {
                     temp_date_string_output = localDate.toString();
                     range_input_list.add(temp_date_string_output);
                 }
+            }
+            else { //inputGroupType = the other 2
+                for (int i = 0; i < date_pair_each_row.size(); i++) {
+                    //Since if sorted by group or by days, it will always in pair. This for loop format localdate into string.
+                    temp_date_string_output = date_pair_each_row.get(i).toString() + " - " + date_pair_each_row.get(i + 1).toString();
+                    i = i + 1;
+                }
+                range_input_list.add(temp_date_string_output);
             }
 
             //Convert list of range input to array and output it as range column
