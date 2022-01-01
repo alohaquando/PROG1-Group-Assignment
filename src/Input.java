@@ -19,7 +19,7 @@ public class Input {
         String dateType = inputDateType();
         input[1] = dateType;
 
-        LocalDate[] pair = inputDate(dateType);
+        pair = inputDate(dateType);
         input[2] = pair;
 
         int days = dateBetween(pair);
