@@ -54,6 +54,7 @@ public class Display {
                         tempDate = tempDate.plusDays(days_per_row_if_select_by_group[i] - 1);
                         date_pair_each_row.add(tempDate);
                         date_pair_each_row.add(tempDate.plusDays(1));
+                        tempDate = tempDate.plusDays(1);
                     }
                     date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
                 }
