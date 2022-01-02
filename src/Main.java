@@ -7,6 +7,7 @@ public class Main {
 
         // Get all needed input
         Input.getAllInput(data);
+        new Display(data);
 
     }
 }
