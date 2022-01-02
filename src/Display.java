@@ -28,7 +28,7 @@ public class Display {
                 //range_input_list.add(date_pair[0]);
             }
             else { //user input 2 different dates
-                if (date_pair[1].isAfter(date_pair[0])) {
+                if (date_pair[0].isAfter(date_pair[1])) {
                     //if date 1 occur after date 2. Switch place so that date 1 occur before date 2
                     LocalDate temp_date_swap = date_pair[0];
                     date_pair[0] = date_pair[1];
