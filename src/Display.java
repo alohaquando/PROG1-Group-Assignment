@@ -1,12 +1,9 @@
-package com.company;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static com.company.Input.*;
 
 public class Display {
-
     Display(List<List<Object>> data){
         ProcessCSV processed_data = new ProcessCSV(); // call the processCSV class to take data
         if (tableType.equals("tabular")) {
@@ -52,7 +49,7 @@ public class Display {
                     }
                     date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
                 }
-                else { //if this doesnt work, change it into else if "by days". This is done
+                else { 
                     //have exactly as many row as groupValue
                     date_pair_each_row.add(tempDate); // add the start date of a group
                     while (tempDate.isBefore(date_pair[1])) {
@@ -79,20 +76,16 @@ public class Display {
                     range_input_list.add(temp_date_string_output);
                 }
             }
-
             //Convert list of range input to array and output it as range column
             String[] range_input = new String[range_input_list.size()];
             range_input = range_input_list.toArray(range_input);
-
-
+            
             int date_pair_index = 0;
-
             //Input data for value columns. Loops through each rows date from Range collumn and print out the entire table
             for (String s : range_input) { //for each row
 
                 List<LocalDate> every_date_each_row = new ArrayList<>();
                 int sum = 0; //sum of data for each row/ reset after every row
-                //int imaginary_sum = 0; //sum of imaginary date to use if groupType = None or select only 1 date
                 LocalDate start_date_of_row = date_pair_each_row.get(date_pair_index);
                 LocalDate end_date_of_row;
                 List<List<Object>> chosen_metric_data;
@@ -148,6 +141,7 @@ public class Display {
                             for (int i : int_metric_data) {
                                 sum += i;
                             }
+                            total_chosen_metric_data.clear();//clear from end_date_of_row data still in total_chosen_metric_data list
                             chosen_metric_data = processed_data.find_data(data, location, start_date_of_row, 2, 3);
                             total_chosen_metric_data.addAll(chosen_metric_data); //add data from that date to another list that contains all data of date in row
 
@@ -178,10 +172,13 @@ public class Display {
                             sum += i;
                         }
                     }
-                } else { //if it is up to
+                }
+                else { //if it is Up to
                     if (metricType.equals("vaccinated")) {
-                        System.out.println("hello");
-                    } else {
+                        chosen_metric_data = processed_data.find_data(data, location, end_date_of_row, 2, 3);
+                        total_chosen_metric_data.addAll(chosen_metric_data);
+                    }
+                    else { //the other two, since they have the same way of calculation
                         start_date_of_row = date_pair[0];
                         while (!start_date_of_row.isAfter(end_date_of_row)) {
                             every_date_each_row.add(start_date_of_row);
@@ -191,14 +188,14 @@ public class Display {
                             chosen_metric_data = processed_data.find_data(data, location, localDate, 2, 3); //take data from that date
                             total_chosen_metric_data.addAll(chosen_metric_data); //add data from that date to another list that contains all data of date in row
                         }
-                        int_metric_data = total_chosen_metric_data.stream()
-                                .flatMap(Collection::stream)
-                                .map(ob -> (Integer) ob)
-                                .collect(Collectors.toList());
+                    }
+                    int_metric_data = total_chosen_metric_data.stream()
+                            .flatMap(Collection::stream)
+                            .map(ob -> (Integer) ob)
+                            .collect(Collectors.toList());
 
-                        for (int i : int_metric_data) {
-                            sum += i;
-                        }
+                    for (int i : int_metric_data) {
+                        sum += i;
                     }
                 }
                 //Print out table with range column on the left and value column(sum) on the right
@@ -209,7 +206,13 @@ public class Display {
                 }
             }
             System.out.println("---------------------------------------------------------------------------");
-
+            if (valueType.equals("up to") && metricType.equals("vaccinated") ){
+                System.out.println("Since you have select vaccinated and calculation method 'up to', the program will print out only the last date of each group because it is the accumulated values up to that date");
+                System.out.println("If in case you input a country/continent and a date that have multiple vaccinated value(for example, 'Asia' and '03-09-2021' means every country data in Asia with date '03-09-2021'), the program will sum up all of that accumulated values up to that date");
+            }
+        }
+        else {//tableType.equals("chart")
+            //This is where we put the code for textual chart
         }
     }
 }
