@@ -7,47 +7,37 @@ import java.util.Scanner;
 
 public class Input {
 
+    static String location;
+    static String dateType;
+    public static LocalDate[] date_pair;
     static int days_between;
-    static int group_value;
-    public static LocalDate[] pair;
+    static String groupType;
+    static int groupValue;
+    static String metricType;
+    static String valueType;
+    static String tableType;
     // Get all Input
-    static Object[] getAllInput(List<List<Object>> data) {
-        Object[] input = new Object[9];
-
-        input[0] = inputCountry(data);
-
-        String dateType = inputDateType();
-        input[1] = dateType;
-
-        pair = inputDate(dateType);
-        input[2] = pair;
-
-        int days = dateBetween(pair);
-        input[3] = days;
-        days_between = days;
-
-        String groupType = inputGroupType();
-        input[4] = groupType;
-
-        input[5] = inputGroup(groupType, days);
-        group_value = inputGroup(groupType,days);
-        
-        input[6] = inputMetricType();
-        input[7] = inputValueType();
-        input[8] = inputTableType();
+    static void getAllInput(List<List<Object>> data) {
+        location = inputCountry(data);
+        dateType = inputDateType();
+        date_pair = inputDate(dateType);
+        days_between = dateBetween(date_pair);
+        groupType = inputGroupType();
+        groupValue = inputGroup(groupType, days_between);
+        metricType = inputMetricType();
+        valueType = inputValueType();
+        tableType = inputTableType();
 
         System.out.println("\n");
-        System.out.println("Location: " + input[0]);
-        System.out.println("Date type: " + input[1]);
-        System.out.println("Date pair: " + Arrays.toString((LocalDate[]) input[2]));
-        System.out.println("Days between: " + input[3]);
-        System.out.println("Group type: " + input[4]);
-        System.out.println("Group value: " + input[5]);
-        System.out.println("Metric type: " + input[6]);
-        System.out.println("Value type: " + input[7]);
-        System.out.println("Table type: " + input[8]);
-
-        return input;
+        System.out.println("Location: " + location);
+        System.out.println("Date type: " + dateType);
+        System.out.println("Date pair: " + Arrays.toString(date_pair));
+        System.out.println("Days between: " + days_between);
+        System.out.println("Group type: " + groupType);
+        System.out.println("Group value: " + groupValue);
+        System.out.println("Metric type: " + metricType);
+        System.out.println("Value type: " + valueType);
+        System.out.println("Table type: " + tableType);
     }
 
 
@@ -182,6 +172,7 @@ public class Input {
         int dateBetween = (int) ChronoUnit.DAYS.between(pair[0], pair[1]);
         // Make sure the number is positive
         dateBetween = Math.abs(dateBetween);
+        dateBetween = dateBetween + 1;
         return dateBetween;
     }
 
@@ -304,4 +295,3 @@ public class Input {
         }
     }
 }
-
