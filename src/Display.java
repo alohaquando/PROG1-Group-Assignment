@@ -69,7 +69,7 @@ public class Display {
                     date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
                 }
             }
-            String temp_date_string_output = null;
+            String temp_date_string_output;
             if (date_pair[0].isEqual(date_pair[1]) || inputGroupType().equals("none")) { //If only input 1 date or input GroupType = none
                 for (LocalDate localDate : date_pair_each_row) {
                     temp_date_string_output = localDate.toString();
@@ -81,8 +81,8 @@ public class Display {
                     //Since if sorted by group or by days, it will always in pair. This for loop format localdate into string.
                     temp_date_string_output = date_pair_each_row.get(i).toString() + " - " + date_pair_each_row.get(i + 1).toString();
                     i = i + 1;
+                    range_input_list.add(temp_date_string_output);
                 }
-                range_input_list.add(temp_date_string_output);
             }
 
             //Convert list of range input to array and output it as range column
