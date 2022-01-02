@@ -104,18 +104,13 @@ public class Display {
                 List<List<Object>> chosen_metric_data = null;
                 List<Integer> int_metric_data; //convert object list into integer list for calculation
 
-                if (inputGroupType().equals("none")){
-                    end_date_of_row = start_date_of_row;//end date of row is the same as start day or row. Means each row only 1 date
+                if (date_pair[0].isEqual(date_pair[1]) || inputGroupType().equals("none")) {
+                    end_date_of_row = start_date_of_row; //end date of row is the same as start day or row. Means each row only 1 date
                     date_pair_index = date_pair_index + 1;
                 }
-                else {
-                    if (date_pair[0] != date_pair[1]){ //if user input more than 1 different date
-                        end_date_of_row = start_date_of_row; //end date of row is the same as start day or row. Means each row only 1 date
-                    }
-                    else { // if user input multiple date and each row have multiple days
-                        end_date_of_row = date_pair_each_row.get(date_pair_index + 1);
-                        date_pair_index = date_pair_index + 2;
-                    }
+                else {                     // if user input multiple date and each row have multiple days
+                    end_date_of_row = date_pair_each_row.get(date_pair_index + 1);
+                    date_pair_index = date_pair_index + 2;
                 }
                 //2 way of calculating results
                 if (inputValueType().equals("new total")) {
