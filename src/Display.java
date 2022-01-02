@@ -1,30 +1,26 @@
-package com.company;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static com.company.Input.*;
 
 public class Display {
 
     Display(List<List<Object>> data){
-
-        if (inputTableType().equals("tabular")) {
+        ProcessCSV processed_data = new ProcessCSV(); // call the processCSV class to take data
+        if (tableType.equals("tabular")) {
             System.out.println("Range\tValue");
             ArrayList<String> range_input_list = new ArrayList<>();
             List<LocalDate> date_pair_each_row = new ArrayList<>(); //include the start and end date of each group. If user select none then this will hold date of each group
             //Specify Groupings
-            int totalDate = days_between + 1; //include the start date and end date
-            int selected_group_value = group_value;
-            LocalDate[] date_pair = pair;
             LocalDate tempDate = date_pair[0]; //initial value for temp_date is the start date to be use later on
 
             if (date_pair[0].isEqual(date_pair[1])) { //user input 1 date
                 date_pair_each_row.add(date_pair[0]);
                 System.out.println("Correct");
+                //range_input_list.add(date_pair[0]);
             }
             else { //user input 2 different dates
                 if (date_pair[0].isAfter(date_pair[1])) {
@@ -33,20 +29,20 @@ public class Display {
                     date_pair[0] = date_pair[1];
                     date_pair[1] = temp_date_swap;
                 }
-                if (inputGroupType().equals("none")) { //loop and add until date reach end date
+                if (groupType.equals("none")) { //loop and add until date reach end date
                     while (!tempDate.isAfter(date_pair[1])){
                         date_pair_each_row.add(tempDate);
                         tempDate = tempDate.plusDays(1);
                     }
                 }
-                else if (inputGroupType().equals("by group")){
+                else if (groupType.equals("by group")){
                     //we have exactly as many row as group value specified and find how many days each row
                     //To find how many days per row if user select by group
-                    int[] days_per_row_if_select_by_group = new int[selected_group_value]; //each int elements represents how many days each row
-                    for (int i = 0; i < days_per_row_if_select_by_group.length; i++)
-                        totalDate -= days_per_row_if_select_by_group[i] = (totalDate + selected_group_value - i - 1) / (selected_group_value - i);
-
-                    date_pair_each_row.add(tempDate); // Add the first date
+                    int[] days_per_row_if_select_by_group = new int[groupValue]; //each int elements represents how many days each row
+                    for (int i = 0; i < days_per_row_if_select_by_group.length; i++) {
+                        days_between -= days_per_row_if_select_by_group[i] = (days_between + groupValue - i - 1) / (groupValue - i);
+                    }
+                    date_pair_each_row.add(date_pair[0]); // Add the first date
                     //loop
                     int i;
                     for (i = 0; i < days_per_row_if_select_by_group.length; i ++){
@@ -57,11 +53,11 @@ public class Display {
                     }
                     date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
                 }
-                else { 
-                    //have exactly as many row as selected_group_value
+                else { //if this doesnt work, change it into else if "by days". This is done
+                    //have exactly as many row as groupValue
                     date_pair_each_row.add(tempDate); // add the start date of a group
                     while (tempDate.isBefore(date_pair[1])) {
-                        tempDate = tempDate.plusDays(selected_group_value - 1);
+                        tempDate = tempDate.plusDays(groupValue - 1);
                         date_pair_each_row.add(tempDate);
                         date_pair_each_row.add(tempDate.plusDays(1)); //add the start date of the next group
                         tempDate = tempDate.plusDays(1);
@@ -70,7 +66,7 @@ public class Display {
                 }
             }
             String temp_date_string_output;
-            if (date_pair[0].isEqual(date_pair[1]) || inputGroupType().equals("none")) { //If only input 1 date or input GroupType = none
+            if (date_pair[0].isEqual(date_pair[1]) || groupType.equals("none")) { //If only input 1 date or input GroupType = none
                 for (LocalDate localDate : date_pair_each_row) {
                     temp_date_string_output = localDate.toString();
                     range_input_list.add(temp_date_string_output);
@@ -93,7 +89,6 @@ public class Display {
 
             int date_pair_index = 0;
             //List<List<Object>> data_for_calculation = data_for_calculation
-            ProcessCSV processed_data = new ProcessCSV(); // call the processCSV class to take data
 
             //Input data for value columns. Loops through each rows date from Range collumn and print out the entire table
             for (int rows_index = 0; rows_index < range_input.length; rows_index ++) { //for each row
@@ -105,7 +100,7 @@ public class Display {
                 List<List<Object>> chosen_metric_data = null;
                 List<Integer> int_metric_data; //convert object list into integer list for calculation
 
-                if (date_pair[0].isEqual(date_pair[1]) || inputGroupType().equals("none")) {
+                if (date_pair[0].isEqual(date_pair[1]) || groupType.equals("none")) {
                     end_date_of_row = start_date_of_row; //end date of row is the same as start day or row. Means each row only 1 date
                     date_pair_index = date_pair_index + 1;
                 }
@@ -114,11 +109,11 @@ public class Display {
                     date_pair_index = date_pair_index + 2;
                 }
                 //2 way of calculating results
-                if (inputValueType().equals("new total")) {
+                if (valueType.equals("new total")) {
                     //Choose between three metric
-                    if (inputMetricType().equals("vaccinated")) {
+                    if (metricType.equals("vaccinated")) {
                         if (start_date_of_row.compareTo(end_date_of_row) == 0) { // equals if they are both the same
-                            chosen_metric_data = processed_data.find_data(data, inputCountry(data),start_date_of_row,2,3 );
+                            chosen_metric_data = processed_data.find_data(data, location,start_date_of_row,2,3 );
                             int_metric_data = chosen_metric_data.stream() //In case there's more than 1 data that have the same date. Convert object list into integer list
                                     .flatMap(Collection::stream)
                                     .map(ob->(Integer)ob)
@@ -128,7 +123,7 @@ public class Display {
                                 sum += i;
                             }
                             LocalDate imaginary_date_before = start_date_of_row.minusDays(1); //create an imaginary date to minus.
-                            chosen_metric_data = processed_data.find_data(data, inputCountry(data),imaginary_date_before,2,3 );
+                            chosen_metric_data = processed_data.find_data(data, location,imaginary_date_before,2,3 );
                             int_metric_data = chosen_metric_data.stream() //In case there's more than 1 data that have the same date. Convert object list into integer list
                                     .flatMap(Collection::stream)
                                     .map(ob->(Integer)ob)
@@ -139,7 +134,7 @@ public class Display {
                             }
                         }
                         else { // if more than 1 date for each row
-                            chosen_metric_data = processed_data.find_data(data, inputCountry(data),end_date_of_row,2,3 );
+                            chosen_metric_data = processed_data.find_data(data, location,end_date_of_row,2,3 );
                             int_metric_data = chosen_metric_data.stream() //In case there's more than 1 data that have the same date, because it means there will be more than 1 element in the list. Convert object list into integer list
                                     .flatMap(Collection::stream)
                                     .map(ob->(Integer)ob)
@@ -148,7 +143,7 @@ public class Display {
                             for (int i : int_metric_data) {
                                 sum += i;
                             }
-                            chosen_metric_data = processed_data.find_data(data, inputCountry(data),start_date_of_row,2,3 );
+                            chosen_metric_data = processed_data.find_data(data, location,start_date_of_row,2,3 );
                             int_metric_data = chosen_metric_data.stream() //In case there's more than 1 data that have the same date, because it means there will be more than 1 element in the list. Convert object list into integer list
                                     .flatMap(Collection::stream)
                                     .map(ob->(Integer)ob)
@@ -164,14 +159,14 @@ public class Display {
                             every_date_each_row.add(start_date_of_row);
                             start_date_of_row = start_date_of_row.plusDays(1);
                         }
-                        if (inputMetricType().equals("death")) {
+                        if (metricType.equals("death")) {
                             for (int i = 0; i < every_date_each_row.size(); i++) {
-                                chosen_metric_data = processed_data.find_data(data, inputCountry(data),every_date_each_row.get(i),2,3 );
+                                chosen_metric_data = processed_data.find_data(data, location,every_date_each_row.get(i),2,3 );
                             }
                         }
                         else {
                             for (int i = 0; i < every_date_each_row.size(); i++) {
-                                chosen_metric_data = processed_data.find_data(data, inputCountry(data),every_date_each_row.get(i),2,3 );
+                                chosen_metric_data = processed_data.find_data(data, location,every_date_each_row.get(i),2,3 );
                             }
                         }
 
@@ -192,17 +187,17 @@ public class Display {
                         start_date_of_row = start_date_of_row.plusDays(1);
                     }
                     //Choose between three metric
-                    if (inputMetricType().equals("vaccinated")) {
+                    if (metricType.equals("vaccinated")) {
                         for (int i = 0; i < every_date_each_row.size(); i++) {
-                            chosen_metric_data = processed_data.find_data(data, inputCountry(data),every_date_each_row.get(i),2,3 );
+                            chosen_metric_data = processed_data.find_data(data, location,every_date_each_row.get(i),2,3 );
                         }
-                    } else if ((inputMetricType().equals("death"))) {
+                    } else if ((metricType.equals("death"))) {
                         for (int i = 0; i < every_date_each_row.size(); i++) {
-                            chosen_metric_data = processed_data.find_data(data, inputCountry(data),every_date_each_row.get(i),2,3 );
+                            chosen_metric_data = processed_data.find_data(data, location,every_date_each_row.get(i),2,3 );
                         }
                     } else { //new cases
                         for (int i = 0; i < every_date_each_row.size(); i++) {
-                            chosen_metric_data = processed_data.find_data(data, inputCountry(data),every_date_each_row.get(i),2,3 );
+                            chosen_metric_data = processed_data.find_data(data, location,every_date_each_row.get(i),2,3 );
                         }
                     }
                     int_metric_data = chosen_metric_data.stream()
@@ -219,3 +214,4 @@ public class Display {
         }
     }
 }
+
