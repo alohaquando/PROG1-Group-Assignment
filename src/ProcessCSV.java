@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProcessCSV {
+public class ProcessCSV extends Input{
     public static List<List<Object>> process() {
         // Create new 2D list to hold CSV data
         List<List<Object>> data = new ArrayList<>();
