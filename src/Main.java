@@ -8,16 +8,27 @@ public class Main {
         // Process the CSV file to use throughout the function
         List<List<Object>> data = ProcessCSV.process();
 
-        System.out.println("Welcome to our group project");
-        System.out.println("Type 'yes' if you want to continue using our program and 'no' if you want to quit");
-        String user_input = scanner.nextLine();
-        while (!user_input.equals("no")) {
-            // Get all needed input
+        // Run program
+        String user_input = "yes";
+
+        while (user_input.equals("yes")) {
+            // Get all inputs from user
             Input.getAllInput(data);
             new Display(data);
-            System.out.println("Type 'yes' if you want to continue using our program and 'no' if you want to quit");
+
+            // Ask to rerun program
+            System.out.print("\nContinue running program? Write 'yes' or 'no': ");
             user_input = scanner.nextLine();
+
+            // Validate input and ask again if invalid
+            while (!user_input.equals("yes") && !user_input.equals("no")){
+                System.out.println("Invalid input. Please try again.");
+                System.out.print("\nContinue running program? Write 'yes' or 'no': ");
+                user_input = scanner.nextLine();
+            }
         }
-        System.out.println("Thank you for using our program!");
+
+        // End program if "no" selected
+        System.out.println("\nThank you for using our program!");
     }
 }

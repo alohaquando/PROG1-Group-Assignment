@@ -164,6 +164,7 @@ public class Input {
                 result[1] = date2Formatted;
             }
         }
+        Arrays.sort(result);
         return result;
     }
 
