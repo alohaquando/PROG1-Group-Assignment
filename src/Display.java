@@ -48,7 +48,7 @@ public class Display extends Input {
                     }
                     date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
                 }
-                else { 
+                else {
                     //have exactly as many row as groupValue
                     date_pair_each_row.add(tempDate); // add the start date of a group
                     while (tempDate.isBefore(date_pair[1])) {
@@ -78,7 +78,7 @@ public class Display extends Input {
             //Convert list of range input to array and output it as range column
             String[] range_input = new String[range_input_list.size()];
             range_input = range_input_list.toArray(range_input);
-            
+
             int date_pair_index = 0;
             //Input data for value columns. Loops through each rows date from Range collumn and print out the entire table
             for (String s : range_input) { //for each row
@@ -215,4 +215,3 @@ public class Display extends Input {
         }
     }
 }
-
