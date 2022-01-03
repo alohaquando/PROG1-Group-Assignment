@@ -1,9 +1,8 @@
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import static com.company.Input.*;
 
-public class Display {
+public class Display extends Input {
     Display(List<List<Object>> data){
         ProcessCSV processed_data = new ProcessCSV(); // call the processCSV class to take data
         if (tableType.equals("tabular")) {
