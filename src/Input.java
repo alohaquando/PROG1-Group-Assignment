@@ -3,20 +3,19 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
-
 import java.util.Scanner;
 
 public class Input {
 
-    static String location;
-    static String dateType;
+    public static String location;
+    public static String dateType;
     public static LocalDate[] date_pair;
-    static int days_between;
-    static String groupType;
-    static int groupValue;
-    static String metricType;
-    static String valueType;
-    static String tableType;
+    public static int days_between;
+    public  static String groupType;
+    public static int groupValue;
+    public static String metricType;
+    public static String valueType;
+    public static String tableType;
     // Get all Input
     static void getAllInput(List<List<Object>> data) {
         location = inputCountry(data);
