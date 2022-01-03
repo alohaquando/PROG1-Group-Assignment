@@ -11,11 +11,12 @@ public class Input {
     public static String dateType;
     public static LocalDate[] date_pair;
     public static int days_between;
-    public  static String groupType;
+    public static String groupType;
     public static int groupValue;
     public static String metricType;
     public static String valueType;
     public static String tableType;
+
     // Get all Input
     static void getAllInput(List<List<Object>> data) {
         location = inputCountry(data);

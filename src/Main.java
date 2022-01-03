@@ -21,7 +21,7 @@ public class Main {
             user_input = scanner.nextLine();
 
             // Validate input and ask again if invalid
-            while (!user_input.equals("yes") && !user_input.equals("no")){
+            while (!user_input.equals("yes") && !user_input.equals("no")) {
                 System.out.println("Invalid input. Please try again.");
                 System.out.print("\nContinue running program? Write 'yes' or 'no': ");
                 user_input = scanner.nextLine();

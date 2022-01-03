@@ -91,16 +91,14 @@ public class ProcessCSV extends Input {
         List<Object> temp_metricType;
         for (List<Object> line : data) {
             if (find_location.equals(line.get(location_column))) {
-                if(find_date.equals(line.get(date_column))){
-                    if (metricType.equals("positive")){
+                if (find_date.equals(line.get(date_column))) {
+                    if (metricType.equals("positive")) {
                         temp_metricType = Collections.singletonList((int) line.get(4)); //convert java.util.integer to java.util.list to put in an list<object>
                         data_for_calculation.add(temp_metricType);
-                    }
-                    else if ((metricType.equals("death"))){
+                    } else if ((metricType.equals("death"))) {
                         temp_metricType = Collections.singletonList((int) line.get(5));
                         data_for_calculation.add(temp_metricType);
-                    }
-                    else {
+                    } else {
                         temp_metricType = Collections.singletonList((int) line.get(6));
                         data_for_calculation.add(temp_metricType);
                     }

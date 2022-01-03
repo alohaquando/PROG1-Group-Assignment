@@ -3,7 +3,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Display extends Input {
-    Display(List<List<Object>> data){
+    Display(List<List<Object>> data) {
         ProcessCSV processed_data = new ProcessCSV(); // call the processCSV class to take data
         if (tableType.equals("tabular")) {
             System.out.println("---------------------------------------------------------------------------");
@@ -16,8 +16,7 @@ public class Display extends Input {
 
             if (date_pair[0].isEqual(date_pair[1])) { //user input 1 date
                 date_pair_each_row.add(date_pair[0]);
-            }
-            else { //user input 2 different dates
+            } else { //user input 2 different dates
                 if (date_pair[0].isAfter(date_pair[1])) {
                     //if date 1 occur after date 2. Switch place so that date 1 occur before date 2
                     LocalDate temp_date_swap = date_pair[0];
@@ -25,12 +24,11 @@ public class Display extends Input {
                     date_pair[1] = temp_date_swap;
                 }
                 if (groupType.equals("none")) { //loop and add until date reach end date
-                    while (!tempDate.isAfter(date_pair[1])){
+                    while (!tempDate.isAfter(date_pair[1])) {
                         date_pair_each_row.add(tempDate);
                         tempDate = tempDate.plusDays(1);
                     }
-                }
-                else if (groupType.equals("by group")){
+                } else if (groupType.equals("by group")) {
                     //we have exactly as many row as group value specified and find how many days each row
                     //To find how many days per row if user select by group
                     int[] days_per_row_if_select_by_group = new int[groupValue]; //each int elements represents how many days each row
@@ -40,15 +38,14 @@ public class Display extends Input {
                     date_pair_each_row.add(date_pair[0]); // Add the first date
                     //loop
                     int i;
-                    for (i = 0; i < days_per_row_if_select_by_group.length; i ++){
+                    for (i = 0; i < days_per_row_if_select_by_group.length; i++) {
                         tempDate = tempDate.plusDays(days_per_row_if_select_by_group[i] - 1);
                         date_pair_each_row.add(tempDate);
                         date_pair_each_row.add(tempDate.plusDays(1));
                         tempDate = tempDate.plusDays(1);
                     }
-                    date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
-                }
-                else {
+                    date_pair_each_row.remove(date_pair_each_row.size() - 1); //remove the last element because it is over the end date
+                } else {
                     //have exactly as many row as groupValue
                     date_pair_each_row.add(tempDate); // add the start date of a group
                     while (tempDate.isBefore(date_pair[1])) {
@@ -57,7 +54,7 @@ public class Display extends Input {
                         date_pair_each_row.add(tempDate.plusDays(1)); //add the start date of the next group
                         tempDate = tempDate.plusDays(1);
                     }
-                    date_pair_each_row.remove(date_pair_each_row.size()-1); //remove the last element because it is over the end date
+                    date_pair_each_row.remove(date_pair_each_row.size() - 1); //remove the last element because it is over the end date
                 }
             }
             String temp_date_string_output;
@@ -66,8 +63,7 @@ public class Display extends Input {
                     temp_date_string_output = localDate.toString();
                     range_input_list.add(temp_date_string_output);
                 }
-            }
-            else { //inputGroupType = the other 2
+            } else { //inputGroupType = the other 2
                 for (int i = 0; i < date_pair_each_row.size(); i++) {
                     //Since if sorted by group or by days, it will always in pair. This for loop format localdate into string.
                     temp_date_string_output = date_pair_each_row.get(i).toString() + " - " + date_pair_each_row.get(i + 1).toString();
@@ -171,13 +167,11 @@ public class Display extends Input {
                             sum += i;
                         }
                     }
-                }
-                else { //if it is Up to
+                } else { //if it is Up to
                     if (metricType.equals("vaccinated")) {
                         chosen_metric_data = processed_data.find_data(data, location, end_date_of_row, 2, 3);
                         total_chosen_metric_data.addAll(chosen_metric_data);
-                    }
-                    else { //the other two, since they have the same way of calculation
+                    } else { //the other two, since they have the same way of calculation
                         start_date_of_row = date_pair[0];
                         while (!start_date_of_row.isAfter(end_date_of_row)) {
                             every_date_each_row.add(start_date_of_row);
@@ -205,12 +199,11 @@ public class Display extends Input {
                 }
             }
             System.out.println("---------------------------------------------------------------------------");
-            if (valueType.equals("up to") && metricType.equals("vaccinated") ){
+            if (valueType.equals("up to") && metricType.equals("vaccinated")) {
                 System.out.println("Since you have select vaccinated and calculation method 'up to', the program will print out only the last date of each group because it is the accumulated values up to that date");
                 System.out.println("If in case you input a country/continent and a date that have multiple vaccinated value(for example, 'Asia' and '03-09-2021' means every country data in Asia with date '03-09-2021'), the program will sum up all of that accumulated values up to that date");
             }
-        }
-        else {//tableType.equals("chart")
+        } else {//tableType.equals("chart")
             //This is where we put the code for textual chart
         }
     }
