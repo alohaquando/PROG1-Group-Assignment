@@ -6,11 +6,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public class ProcessCSV extends Input{
+public class ProcessCSV extends Input {
     public static List<List<Object>> process() {
         // Create new 2D list to hold CSV data
+        //
         List<List<Object>> data = new ArrayList<>();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
@@ -83,22 +85,24 @@ public class ProcessCSV extends Input{
         }
         return false;
     }
-    
-    public List<List<Object>> find_data(List<List<Object>> data, String find_location, LocalDate find_date, int location_column, int date_column) {
-        List<List<Object>> data_for_calculation = new ArrayList<>();//put data needed in here and return it to use
 
+    public List<List<Object>> find_data(List<List<Object>> data, String find_location, LocalDate find_date, int location_column, int date_column) {
+        List<List<Object>> data_for_calculation = new ArrayList<>();//put data needed in here and return it to use. Reset after every loop in Display()
+        List<Object> temp_metricType;
         for (List<Object> line : data) {
             if (find_location.equals(line.get(location_column))) {
                 if(find_date.equals(line.get(date_column))){
-                    if (inputMetricType().equals("positive")){
-                        data_for_calculation.add((List<Object>) line.get(5));
+                    if (metricType.equals("positive")){
+                        temp_metricType = Collections.singletonList((int) line.get(4)); //convert java.util.integer to java.util.list to put in an list<object>
+                        data_for_calculation.add(temp_metricType);
                     }
-                    else if ((inputMetricType().equals("death"))){
-                        data_for_calculation.add((List<Object>) line.get(6));
-
+                    else if ((metricType.equals("death"))){
+                        temp_metricType = Collections.singletonList((int) line.get(5));
+                        data_for_calculation.add(temp_metricType);
                     }
                     else {
-                        data_for_calculation.add((List<Object>) line.get(7));
+                        temp_metricType = Collections.singletonList((int) line.get(6));
+                        data_for_calculation.add(temp_metricType);
                     }
                 }
             }
@@ -106,6 +110,4 @@ public class ProcessCSV extends Input{
         return data_for_calculation;
     }
 
-
 }
-
