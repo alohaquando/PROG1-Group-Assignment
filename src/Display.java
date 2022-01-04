@@ -221,8 +221,7 @@ public class Display extends Input {
             }
         }
         else {//tableType.equals("chart")
-            String y_start_of_value = "";
-            String y_end_of_value = "";
+            String y_start_of_value;
             //value_input and range_input
             String y_axis_23 = "|                                                                               ";
             String y_axis_22 = "|                                                                               ";
@@ -248,9 +247,21 @@ public class Display extends Input {
             String y_axis_2 = "|                                                                               ";
             String y_axis_1 = "|                                                                               ";
             String x_axis = " _______________________________________________________________________________";
+            //String x_axis = " __________";
 
             String[] textual_chart = {y_axis_23,y_axis_22,y_axis_21,y_axis_20,y_axis_19,y_axis_18,y_axis_17,y_axis_16,y_axis_15,y_axis_14,y_axis_13,y_axis_12,y_axis_11,y_axis_10,y_axis_9,y_axis_8,y_axis_7,y_axis_6,y_axis_5,y_axis_4,y_axis_3,y_axis_2,y_axis_1,x_axis};
             List<String> textual_chart_list = Arrays.asList(textual_chart); //convert textual_chart array to list
+            List<Integer> number_range_each_pipe = new ArrayList<>();
+
+            //3 .add() below is for testing
+            range_input.add("23-09-2021");
+            range_input.add("24-09-2021");
+            range_input.add("25-09-2021");
+            range_input.add("26-09-2021");
+            value_input.add(1); //fix 2: The problem lies in the if max_value > 23 or 22
+            value_input.add(6);
+            value_input.add(91);
+            value_input.add(101);
 
             double group_position_double;
             int how_many_groups = range_input.size(); //find how many group we have
@@ -274,17 +285,24 @@ public class Display extends Input {
             else{ //min value = -1(for example) so we
                 num_in_between = max_value - min_value;
             }
-            System.out.println("num_in_between " + num_in_between);
             int i;
+            int start_value_pipe = min_value;
+            int c = 0;
             for (i = 0; i < range_input.size();i++) {
                 //the goal is to find y coordinate and x coordinate and then use Strinbuilder to replace whitespace in
                 //one of the string in textual_chart array
-
                 if (num_in_between > 23) {
-                    System.out.println(num_in_between);
-                    num_each_pipe_double = Math.round((double)num_in_between/(double)23);
-                    System.out.println("Number each pipe " + num_each_pipe_double);
+                    num_each_pipe_double = Math.ceil((double)num_in_between/(double)23);
                     num_each_pipe = (int) num_each_pipe_double;
+
+                    //start_value_pipe = start_value_pipe - 1;
+                    while(c != 23) {
+                        number_range_each_pipe.add(start_value_pipe);
+                        start_value_pipe = start_value_pipe + num_each_pipe;
+                        number_range_each_pipe.add(start_value_pipe);
+                        c = c + 1;
+                    }
+
                     if (min_value == 0 && value_input.get(i) != 0){
                         if (value_input.get(i) < num_each_pipe){ //if the range of data is too big and value_input.get(i) compare to num_each_pipe is too small, default it to y_coor_1
                             y_coordinate = 1;
@@ -302,17 +320,27 @@ public class Display extends Input {
                             y_coordinate += 1;
                             if (y_coordinate == 24) {
                                 y_coordinate -= 1;
-                                System.out.println("y coor" + y_coordinate);
                             }
                         }
                     }
+                    Math.round(y_coordinate);
+                    if (value_input.get(i) > (((int) y_coordinate * num_each_pipe) + min_value) ){
+                        y_coordinate += 1;
+                    }
+
                 }
                 else { //every pipe represents 1-23 or 0 - 22 //This is done
-                    if (min_value == 0){
+                    if (min_value == 0) {
                         y_coordinate = value_input.get(i) + 1;
+                        y_start_of_value = Integer.toString(min_value);
                     }
                     else {
                         y_coordinate = value_input.get(i);
+                    }
+                    while (c != 23){
+                        number_range_each_pipe.add(start_value_pipe);
+                        start_value_pipe = start_value_pipe + 1;
+                        c = c + 1;
                     }
                 }
 
@@ -327,22 +355,38 @@ public class Display extends Input {
                 replace_with_asterisk = new StringBuilder(textual_chart_list.get(y_coordinate_backwards));//get the y_axis_xx line to input * in.
                 replace_with_asterisk.setCharAt(group_position * group_index, '*');
                 textual_chart[y_coordinate_backwards] = replace_with_asterisk.toString(); //replace 23 with y_coordinate_backwards
-                //System.out.println(x_axis);
-
-                //First look at range_input[i]. Input data for range_input[i]
-                //get group_position, input group_position
-                //save the y_axis_xx
-                //To get the next group x coordinate position, multiple with index of that group + 1
-                //move on to the next one.
-
 
             }
+            String add_value_range;
+            String add_value_range_2;
+            String temp_pipe;
+            int if_smaller_than_23 = 22;
+            int if_bigger_than_23 = 45;
             for (String s : textual_chart) { //Print the chart out
+                if (!s.equals(" _______________________________________________________________________________")){//if not the x axis
+                    if (number_range_each_pipe.size() > 23){
+                        temp_pipe = s;
+                        add_value_range = Integer.toString(number_range_each_pipe.get(if_bigger_than_23));
+                        if_bigger_than_23 -= 1;
+                        add_value_range_2 = Integer.toString(number_range_each_pipe.get(if_bigger_than_23));
+                        if_bigger_than_23 -= 1;
+                        s = temp_pipe + "(" + add_value_range_2 + "-" +add_value_range + ")";
+
+                    }
+                    else {
+                        temp_pipe = s;
+                        add_value_range = Integer.toString(number_range_each_pipe.get(if_smaller_than_23));
+                        if_smaller_than_23 -= 1;
+                        s = temp_pipe + "(" + add_value_range + ")";
+                    }
+                }
                 System.out.println(s);
             }
-            System.out.println("Date from smallest value data to largest value data: " + range_input);
-            System.out.println("Value data from smallest to largest: " + value_input);
-
+            System.out.println("There are  " + num_in_between + " between the smallest value and largest value(including smallest and largest");
+            System.out.println("There are " + num_each_pipe + " number each pipe");
+            System.out.println("The number on the side represents the range of that pipe.");
+            System.out.println("If maximum data value larger than 23, value data in one pipe is from (i - i_2) and cannot be bigger than i_2 ");
+            System.out.println("If largest data value is smaller than 23 or 0-22, value data that pipe is equal to number on the right");
         }
     }
 }
