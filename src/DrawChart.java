@@ -136,10 +136,20 @@ public class DrawChart {
         }
     }
 }
+            /*
+                public static void main(String[] args) 
+        {
+            int[] a = {1, 5, 2, 3, 4};
+            System.out.println(Arrays.toString(sortArray(a)));
+            //int[] value_input = sortArray(a);
+            //System.out.println(Arrays.toString(value_input));
+            System.out.println(Arrays.toString(IndexArray(a)));
+            //
+            //
 
-      
-           // funtion to sort value from min to max
-            /*public static int[] sortArray(int[] OriginalArray) {
+        }
+    //// funtion to sort value from min to max
+        public static int[] sortArray(int[] OriginalArray) {
             int[] sortedArray = new int[OriginalArray.length];
             int temp;
             for (int i = 0; i <= OriginalArray.length; i++)
@@ -156,4 +166,55 @@ public class DrawChart {
                 }
             }
             return sortedArray;
+        }
+    ///// add new index into an index array
+    public static int[] IndexArray(int[] OriginalArray) {
+        int[] IndexArray = new int[OriginalArray.length];
+        int temp;
+        for (int i = 0; i <= OriginalArray.length; i++)
+        {
+            for (int k = i+1; k < OriginalArray.length; k++) // create for loop to continue to rearrange the value order
+            {
+                if (OriginalArray[i] > OriginalArray[k])
+                {
+                    temp = i;
+                    i = k;
+                    k = temp;
+
+                    OriginalArray[i] = i;
+
+                    IndexArray = OriginalArray;
+                }
+            }
+        }
+        return IndexArray;
+    }
+
+    ////find the index of value_input
+        public static int findIndex(int arr[], int the_arr_value)
+    {
+        // if array is Null
+        if (arr == null) {
+            return -1;
+        }
+        // find length of array
+        int len = arr.length;
+        int i = 0;
+
+        // traverse in the array
+        while (i < len) {
+            // if the i-th element is the_arr_value
+            // then return the index
+            if (arr[i] == the_arr_value) {
+                return i;
+            }
+            else {
+                i = i + 1;
+            }
+        }
+        return -1;
+    }
+    ///// add new index into an index array
+
+    /////use index array to match the index position between value_input and range_input
         }*/
