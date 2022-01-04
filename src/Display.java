@@ -221,8 +221,6 @@ public class Display extends Input {
             }
         }
         else {//tableType.equals("chart")
-            String y_start_of_value;
-            //value_input and range_input
             String y_axis_23 = "|                                                                               ";
             String y_axis_22 = "|                                                                               ";
             String y_axis_21 = "|                                                                               ";
@@ -247,21 +245,10 @@ public class Display extends Input {
             String y_axis_2 = "|                                                                               ";
             String y_axis_1 = "|                                                                               ";
             String x_axis = " _______________________________________________________________________________";
-            //String x_axis = " __________";
 
             String[] textual_chart = {y_axis_23,y_axis_22,y_axis_21,y_axis_20,y_axis_19,y_axis_18,y_axis_17,y_axis_16,y_axis_15,y_axis_14,y_axis_13,y_axis_12,y_axis_11,y_axis_10,y_axis_9,y_axis_8,y_axis_7,y_axis_6,y_axis_5,y_axis_4,y_axis_3,y_axis_2,y_axis_1,x_axis};
             List<String> textual_chart_list = Arrays.asList(textual_chart); //convert textual_chart array to list
             List<Integer> number_range_each_pipe = new ArrayList<>();
-
-            //3 .add() below is for testing
-            range_input.add("23-09-2021");
-            range_input.add("24-09-2021");
-            range_input.add("25-09-2021");
-            range_input.add("26-09-2021");
-            value_input.add(1); //fix 2: The problem lies in the if max_value > 23 or 22
-            value_input.add(6);
-            value_input.add(91);
-            value_input.add(101);
 
             double group_position_double;
             int how_many_groups = range_input.size(); //find how many group we have
@@ -327,12 +314,10 @@ public class Display extends Input {
                     if (value_input.get(i) > (((int) y_coordinate * num_each_pipe) + min_value) ){
                         y_coordinate += 1;
                     }
-
                 }
                 else { //every pipe represents 1-23 or 0 - 22 //This is done
                     if (min_value == 0) {
                         y_coordinate = value_input.get(i) + 1;
-                        y_start_of_value = Integer.toString(min_value);
                     }
                     else {
                         y_coordinate = value_input.get(i);
@@ -343,8 +328,6 @@ public class Display extends Input {
                         c = c + 1;
                     }
                 }
-
-                //From here on is OK
                 Math.round(y_coordinate);
                 int y_coordinate_backwards = (int) (23 - y_coordinate);
 
@@ -354,8 +337,7 @@ public class Display extends Input {
                 StringBuilder replace_with_asterisk;
                 replace_with_asterisk = new StringBuilder(textual_chart_list.get(y_coordinate_backwards));//get the y_axis_xx line to input * in.
                 replace_with_asterisk.setCharAt(group_position * group_index, '*');
-                textual_chart[y_coordinate_backwards] = replace_with_asterisk.toString(); //replace 23 with y_coordinate_backwards
-
+                textual_chart[y_coordinate_backwards] = replace_with_asterisk.toString();
             }
             String add_value_range;
             String add_value_range_2;
@@ -363,7 +345,7 @@ public class Display extends Input {
             int if_smaller_than_23 = 22;
             int if_bigger_than_23 = 45;
             for (String s : textual_chart) { //Print the chart out
-                if (!s.equals(" _______________________________________________________________________________")){//if not the x axis
+                if (!s.equals(" _______________________________________________________________________________")){//To input number on the side
                     if (number_range_each_pipe.size() > 23){
                         temp_pipe = s;
                         add_value_range = Integer.toString(number_range_each_pipe.get(if_bigger_than_23));
@@ -371,7 +353,6 @@ public class Display extends Input {
                         add_value_range_2 = Integer.toString(number_range_each_pipe.get(if_bigger_than_23));
                         if_bigger_than_23 -= 1;
                         s = temp_pipe + "(" + add_value_range_2 + "-" +add_value_range + ")";
-
                     }
                     else {
                         temp_pipe = s;
@@ -382,6 +363,8 @@ public class Display extends Input {
                 }
                 System.out.println(s);
             }
+            System.out.println("Each group date: " + range_input);
+            System.out.println("Value for each group(same index with each group date): " + value_input);
             System.out.println("There are  " + num_in_between + " between the smallest value and largest value(including smallest and largest");
             System.out.println("There are " + num_each_pipe + " number each pipe");
             System.out.println("The number on the side represents the range of that pipe.");
@@ -390,6 +373,3 @@ public class Display extends Input {
         }
     }
 }
-
-
-
