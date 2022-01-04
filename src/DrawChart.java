@@ -44,9 +44,11 @@ public class DrawChart {
         range_input.add("23-09-2021");
         range_input.add("24-09-2021");
         range_input.add("25-09-2021");
+        range_input.add("26-09-2021");
+        value_input.add(0); //fix 1: if input 1 and 0 in 1 array, dont output correctly
         value_input.add(1);
-        value_input.add(2);
-        value_input.add(3);
+        value_input.add(18);
+        value_input.add(22);
 
         double group_position_double;
         int how_many_groups = range_input.size(); //find how many group we have
@@ -56,11 +58,10 @@ public class DrawChart {
             group_position_double = Math.floor(79 / how_many_groups);
         }
         int group_position = (int) group_position_double; //convert double to integer. This is the x coordinate
-        //System.out.println("length of y_axis_3 " + y_axis_23.length());
 
-        double num_each_pipe_double = 0; //initialize the value for num each pipe double
+        double num_each_pipe_double; //initialize the value for num each pipe double
         double y_coordinate;
-        int num_each_pipe;
+        int num_each_pipe = 0;
         int num_in_between;
         Integer max_value = Collections.max(value_input); //biggest number in the value_input
         Integer min_value = Collections.min(value_input); //smallest number in the value_input
@@ -70,27 +71,46 @@ public class DrawChart {
         else{ //min value = -1(for example) so we
             num_in_between = max_value - min_value;
         }
-
+        System.out.println("num_in_between" + num_in_between);
         int i;
         for (i = 0; i < range_input.size();i++) {
             //the goal is to find y coordinate and x coordinate and then use Strinbuilder to replace whitespace in
             //one of the string in textual_chart array
 
             if (num_in_between > 23) {
+                System.out.println("check");
                 num_each_pipe_double = Math.floor(num_in_between / 23);
+                System.out.println("Number each pipe" + num_each_pipe_double);
+
                 num_each_pipe = (int) num_each_pipe_double;
-                if (value_input.get(i) == 0){ //if 0, auto default to the y_coor_01
-                    y_coordinate = 1;
+                System.out.println(num_each_pipe);
+                if (min_value == 0 && value_input.get(i) != 0){
+                    y_coordinate = (value_input.get(i) - min_value) / num_each_pipe;
+                }
+                else { //dont have zero as min_value
+                    if (value_input.get(i) == 0){ //if 0, auto default to the y_coor_01
+                        y_coordinate = 1;
+                    }
+                    else {
+                        y_coordinate = (value_input.get(i) - min_value) / num_each_pipe;
+                        y_coordinate += 1;
+                        if (y_coordinate == 24) {
+                            y_coordinate -= 1;
+                            System.out.println("y coor" + y_coordinate);
+                        }
+                    }
+                }
+            }
+            else { //every pipe represents 1-23 or 0 - 22 //This is done
+                if (min_value == 0){
+                    y_coordinate = value_input.get(i) + 1;
                 }
                 else {
-                    y_coordinate = (value_input.get(i) - min_value) / num_each_pipe;
-                    y_coordinate += 1;
+                    y_coordinate = value_input.get(i);
                 }
             }
-            else { //every pipe represents 1-23
-                y_coordinate = value_input.get(i);
-            }
 
+            //From here on is OK
             Math.round(y_coordinate);
             int y_coordinate_backwards = (int) (23 - y_coordinate);
 
@@ -111,12 +131,12 @@ public class DrawChart {
 
 
         }
-
         for (String s : textual_chart) { //Print the chart out
             System.out.println(s);
         }
     }
 }
+
       
            // funtion to sort value from min to max
             /*public static int[] sortArray(int[] OriginalArray) {
