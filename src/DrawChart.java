@@ -93,6 +93,26 @@ public class DrawChart {
             //int y_coordinate_backwards = 23 - y_coordinate because we count from last to start
             //Use that to find the exact String y_axis_xx that we need. Use textual_chart_list.get(y_coordinate_backwards)
             //And then keep repeat it until end of arraylist
+            
+            // funtion to sort value from min to max
+            /*public static int[] sortArray(int[] OriginalArray) {
+            int[] sortedArray = new int[OriginalArray.length];
+            int temp;
+            for (int i = 0; i <= OriginalArray.length; i++)
+            {
+                for (int k = i+1; k < OriginalArray.length; k++) // create for loop to continue to rearrange the value order
+                {
+                    if (OriginalArray[i] > OriginalArray[k])
+                    {
+                        temp = OriginalArray[i];
+                        OriginalArray[i] = OriginalArray[k];
+                        OriginalArray[k] = temp;
+                        sortedArray = OriginalArray;
+                    }
+                }
+            }
+            return sortedArray;
+        }*/
 
         }
         /*
